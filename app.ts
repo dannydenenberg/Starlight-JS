@@ -1,11 +1,12 @@
-const express = require('express');
+import express = require('express');
 const app = express();
 const port = 3000;
-const parser = require('body-parser');
+import parser = require('body-parser');
 
 
 app.use(parser.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
+console.log(`DIRNAME: ${__dirname}`);
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
