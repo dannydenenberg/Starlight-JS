@@ -64,6 +64,14 @@ async function sendTextToNodeJS(text) {
       'Content-Type': 'application/json'
     },
   });
+
+  // waits for response from backend 
   const json = await result.json();
   console.log(json.response);
+}
+
+// talks to the user
+function say(text) {
+  var msg = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(msg);
 }

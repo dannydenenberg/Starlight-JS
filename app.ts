@@ -19,7 +19,8 @@ app.post('/submitCommand', (req, res) => {
   console.log(request)
   console.log(request.text)
   res.send({
-    response: "Your response is this."
+    response: "Your response is this",
+    // action: "asdfa"
   })
 })
 
