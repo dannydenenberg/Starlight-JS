@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var app = express();
+var express_1 = __importDefault(require("express"));
+var app = express_1.default();
 var port = 3000;
-var parser = require("body-parser");
-app.use(parser.json());
-app.use(express.static(__dirname + '/../public'));
+var body_parser_1 = __importDefault(require("body-parser"));
+app.use(body_parser_1.default.json());
+app.use(express_1.default.static(__dirname + '/../public'));
 console.log("DIRNAME: " + __dirname);
-app.get('/', function (req, res) { return res.send('Hello World!'); });
+app.get('/', function (req, res) { return res.send('This is root. You should probably not get this b/c I set up a public dir.'); });
 app.get('/cool', function (req, res) {
     res.send('Cool!');
 });
