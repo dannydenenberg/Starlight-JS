@@ -1,14 +1,30 @@
-var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+/** LEAVE THESE AT THE TOP. THEY ARE NEEDED FOR USE IN EARLY CODE **/
+const SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+const SpeechGrammarList = webkitSpeechGrammarList || SpeechGrammarList;
+const SpeechRecognitionEvent = webkitSpeechRecognitionEvent || SpeechRecognitionEvent;
 
-var continueRecognition = true; // for when the chrome extention can allow the user to diable audio input
+import actions, {
+  say
+} from './actions.js';
+
+
+// response from server (node js) that means Starlite doesn't know how to respond
+// this variable also appears in the app.ts file
+const notACommand = "?notacommand?";
 
 // like the `hey google` or `alexa`. Just note that it has to be spelled this way, not `starlite`
 const triggerWord = 'starlight';
 
-var recognition = new SpeechRecognition();
+var continueRecognition = true; // for when the chrome extention can allow the user to diable audio input
+
+let recognition = new SpeechRecognition();
 recognition.lang = 'en-US';
+
+
+
+document.getElementById("talk").onclick = () => {
+  say('hello');
+}
 
 
 // start the listening
@@ -39,7 +55,8 @@ recognition.onresult = async function(event) {
   // Otherwise, listen again ( the loop starts over )
   // note, the `includes` string function is ES6
   if (text.toLowerCase().includes(triggerWord)) {
-    sendTextToNodeJS(text);
+    sendTextToNodeJS(text); // not usable now that everything is in the client side
+    getAction();
   }
 }
 
@@ -65,13 +82,14 @@ async function sendTextToNodeJS(text) {
     },
   });
 
-  // waits for response from backend 
+  // waits for response from backend
   const json = await result.json();
   console.log(json.response);
 }
 
-// talks to the user
-function say(text) {
-  var msg = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(msg);
+
+// returns the function that needs to be executed because of a given statement
+function getAction(text) {
+  // for in goes through the keys in the object
+  // go through the keys of the actions object and check if
 }
