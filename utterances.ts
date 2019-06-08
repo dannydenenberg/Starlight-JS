@@ -22,6 +22,7 @@ class Utterances {
   }
 }
 
+
 // this map contains the phrase or keyword that maps to a value which represents a function in the actions object
 
 /** get the info from the utterances.list file to populate the `utterances` variable **/
