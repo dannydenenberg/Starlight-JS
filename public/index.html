@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Speecher</title>
-    <script type="module" src="speech.js"></script>
+    <script type="module" src="index.js"></script>
   </head>
   <body>
-<h1>This is speecher.</h1>
+    <h1>This is speecher.</h1>
 
-
-<button id="talk" type="button" name="button">TALK</button>
+    <button id="talk" type="button" name="button">Press this first.</button>
+    <script>
+      function say(text) {
+        var msg = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(msg);
+      }
+      // must be here because chrome won't allow a website to play audio without the user interacting with the webpage somehow (like this button)
+      document.getElementById("talk").onclick = () => {
+        say("hey");
+      };
+    </script>
   </body>
 
-
-<!-- <script type="module" -->
+  <!-- <script type="module" -->
 </html>

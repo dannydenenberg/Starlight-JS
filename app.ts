@@ -1,47 +1,62 @@
 /**
 This is the entry point of the application. Express happens here.
 **/
-import express from 'express';
+import express from "express";
 const app = express();
 const port = 3000;
 
+import puppeteer from "puppeteer";
+
 // formats the body of the request into what we want (JSON)
-import parser from 'body-parser'
-
-import Utterances from './utterances.js'
-
-
-// this is the list of key/value pairs that comes from the utterances.ts file and the utterances.list file
-const utterances = new Utterances().utterances;
-
-
+import parser from "body-parser";
 // response from server (node js) that means Starlite doesn't know how to respond
 // this variable also appears in the speech.js file
 const notACommand = "?notacommand?";
 
-app.use(parser.json())
-app.use(express.static(__dirname + '/../public')) // because it is run from inside the `build/` directory
-console.log(`DIRNAME: ${__dirname}`)
+app.use(parser.json());
+app.use(express.static(__dirname + "/../public")); // because it is run from inside the `build/` directory
+console.log(`DIRNAME: ${__dirname}`);
 
-app.get('/', (req, res) => res.send('This is root. You should probably not get this b/c I set up a public dir.'))
+app.get("/", (req, res) =>
+  res.send(
+    "This is root. You should probably not get this b/c I set up a public dir."
+  )
+);
 
-app.get('/cool', (req , res) => {
-  res.send('Cool!')
-})
+/**
+ * Add any answers to post/get/etc requests from the client side here
+ */
 
-app.post('/submitCommand', (req, res) => {
-  const request = req.body
-  console.log(request)
-  console.log(request.text)
+// USE PUPETTER TO RESPOND TO A POST WITH THE LINK TO YOUTUBE VIDEOS TO SCRAPE
+app.post("/youtubeplay", (req, res) => {
+  (async () => {
+    const url = req.query.url;
 
-  let text: string = request.text;
+    console.log(`URL: ${url}`);
 
-  let response = getResponse(text);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
 
-  res.send(response)
-})
+    // Get the "viewport" of the page, as reported by the page.
+    const doc = await page.evaluate(() => {
+      // get url of first video
+      const firstURL = document.querySelector("#dismissable #thumbnail").href; // this works.
 
-app.listen(port, () => console.log(`Starlite JS listening on port ${port}!`))
+      return {
+        firstURL
+      };
+    });
+
+    // console.log("FIRST URL: ", doc.firstURL);
+
+    await browser.close();
+
+    res.json(doc);
+  })();
+});
+
+app.listen(port, () => console.log(`Starlite JS listening on port ${port}!`));
 /***
 IDEA:
 
@@ -50,14 +65,3 @@ execution.
 
 
 **/
-
-
-// magic happens here
-function getResponse(text: string) {
-  let response: {
-    sayText: string,
-    action: string
-  }
-
-
-}
