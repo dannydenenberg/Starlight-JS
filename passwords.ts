@@ -1,3 +1,3 @@
-const emailPassword: string = "<MY PASSWORD>";
+const emailPassword: string = "x<MY PASSWORD>";
 
 export default emailPassword;
