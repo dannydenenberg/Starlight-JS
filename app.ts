@@ -5,6 +5,9 @@ import express from "express";
 const app = express();
 const port = 3000;
 
+import nodemailer from "nodemailer";
+import emailPassword from "./passwords.js";
+
 import puppeteer from "puppeteer";
 
 // formats the body of the request into what we want (JSON)
@@ -22,6 +25,31 @@ app.get("/", (req, res) =>
     "This is root. You should probably not get this b/c I set up a public dir."
   )
 );
+
+app.post("/mail", (req, res) => {
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "starlitehelp@gmail.com",
+      pass: emailPassword
+    }
+  });
+
+  let mailOptions = {
+    from: "youremail@gmail.com",
+    to: "myfriend@yahoo.com",
+    subject: "Sending Email using Node.js",
+    text: "That was easy!"
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+});
 
 /**
  * Add any answers to post/get/etc requests from the client side here

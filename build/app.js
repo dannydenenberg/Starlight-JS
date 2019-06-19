@@ -87,9 +87,10 @@ app.post("/youtubeplay", function (req, res) {
                         })];
                 case 4:
                     doc = _a.sent();
-                    console.log("FIRST URL: ", doc.firstURL);
+                    // console.log("FIRST URL: ", doc.firstURL);
                     return [4 /*yield*/, browser.close()];
                 case 5:
+                    // console.log("FIRST URL: ", doc.firstURL);
                     _a.sent();
                     res.json(doc);
                     return [2 /*return*/];

@@ -5,7 +5,8 @@ const actions = {
   "hello|hey": text => say("hello"),
   "google search": googleSearch,
   "youtube play": youtubePlay,
-  "youtube search": youtubeSearch
+  "youtube search": youtubeSearch,
+  email: text => say("emailing your friend")
 };
 
 /**
