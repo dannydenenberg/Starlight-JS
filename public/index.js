@@ -34,6 +34,19 @@ recognition.onresult = async function(event) {
   const text = event.results[last][0].transcript;
   console.log(text);
 
+  // send the text to be stored in a variable in the app.ts file that keeps track of the most recent text said
+  fetch("/storespeech", {
+    method: "post",
+    body: JSON.stringify({
+      text
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    console.log("Got a response.");
+  });
+
   // if the string contained the word `starlite` (triggerWord), then send the command to the server (node js) for processing.
   // Otherwise, listen again ( the loop starts over )
   // note, the `includes` string function is ES6

@@ -6,8 +6,24 @@ const actions = {
   "google search": googleSearch,
   "youtube play": youtubePlay,
   "youtube search": youtubeSearch,
-  email: text => say("emailing your friend")
+  email: email
 };
+
+function email(text) {
+  (async () => {
+    const rawResponse = await fetch("/mail", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ speechToText: "the text content" })
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+  })();
+}
 
 /**
  * Here are most of the functions used in the actions variable.

@@ -42,10 +42,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
 This is the entry point of the application. Express happens here.
 **/
+var nodemailer_1 = __importDefault(require("nodemailer"));
+var passwords_1 = __importDefault(require("./passwords"));
+var puppeteer_1 = __importDefault(require("puppeteer"));
 var express_1 = __importDefault(require("express"));
 var app = express_1.default();
 var port = 3000;
-var puppeteer_1 = __importDefault(require("puppeteer"));
 // formats the body of the request into what we want (JSON)
 var body_parser_1 = __importDefault(require("body-parser"));
 // response from server (node js) that means Starlite doesn't know how to respond
@@ -57,10 +59,41 @@ console.log("DIRNAME: " + __dirname);
 app.get("/", function (req, res) {
     return res.send("This is root. You should probably not get this b/c I set up a public dir.");
 });
+// stores the most recent thing said in a variable
+var mostRecentSaid = "";
+app.post("/storespeech", function (req, res) {
+    console.log("I'M HERE!", req.body);
+    res.send("got it");
+});
+app.post("/mail", function (req, res) {
+    var username = "starlitehelp@gmail.com";
+    var transporter = nodemailer_1.default.createTransport({
+        service: "gmail",
+        auth: {
+            user: username,
+            pass: passwords_1.default
+        }
+    });
+    var mailOptions = {
+        from: username,
+        to: "danny_denenberg@gallup.com",
+        subject: "This is my subject!",
+        text: "That was easy!"
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+    res.send("done! good to go!");
+});
 /**
  * Add any answers to post/get/etc requests from the client side here
  */
-// USE PUPETTER TO RESPOND TO A POST WITH THE LINK TO YOUTUBE VIDEOS TO SCRAPE
+// USE PUPPETEER TO RESPOND TO A POST WITH THE LINK TO YOUTUBE VIDEOS TO SCRAPE
 app.post("/youtubeplay", function (req, res) {
     (function () { return __awaiter(_this, void 0, void 0, function () {
         var url, browser, page, doc;

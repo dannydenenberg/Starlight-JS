@@ -1,14 +1,12 @@
 /**
 This is the entry point of the application. Express happens here.
 **/
+import nodemailer from "nodemailer";
+import emailPassword from "./passwords";
+import puppeteer from "puppeteer";
 import express from "express";
 const app = express();
 const port = 3000;
-
-import nodemailer from "nodemailer";
-import emailPassword from "./passwords.js";
-
-import puppeteer from "puppeteer";
 
 // formats the body of the request into what we want (JSON)
 import parser from "body-parser";
@@ -26,19 +24,27 @@ app.get("/", (req, res) =>
   )
 );
 
+// stores the most recent thing said in a variable
+var mostRecentSaid = "";
+app.post("/storespeech", (req, res) => {
+  console.log("I'M HERE!", req.body);
+  res.send("got it");
+});
+
 app.post("/mail", (req, res) => {
+  const username = "starlitehelp@gmail.com";
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "starlitehelp@gmail.com",
+      user: username,
       pass: emailPassword
     }
   });
 
   let mailOptions = {
-    from: "youremail@gmail.com",
-    to: "myfriend@yahoo.com",
-    subject: "Sending Email using Node.js",
+    from: username,
+    to: "danny_denenberg@gallup.com",
+    subject: "This is my subject!",
     text: "That was easy!"
   };
 
@@ -49,13 +55,15 @@ app.post("/mail", (req, res) => {
       console.log("Email sent: " + info.response);
     }
   });
+
+  res.send("done! good to go!");
 });
 
 /**
  * Add any answers to post/get/etc requests from the client side here
  */
 
-// USE PUPETTER TO RESPOND TO A POST WITH THE LINK TO YOUTUBE VIDEOS TO SCRAPE
+// USE PUPPETEER TO RESPOND TO A POST WITH THE LINK TO YOUTUBE VIDEOS TO SCRAPE
 app.post("/youtubeplay", (req, res) => {
   (async () => {
     const url = req.query.url;
@@ -69,7 +77,9 @@ app.post("/youtubeplay", (req, res) => {
     // Get the "viewport" of the page, as reported by the page.
     const doc = await page.evaluate(() => {
       // get url of first video
-      const firstURL = document.querySelector("#dismissable #thumbnail").href; // this works.
+      const firstURL = document.querySelector<HTMLAnchorElement>(
+        "#dismissable #thumbnail"
+      )!.href; // this works.
 
       return {
         firstURL
