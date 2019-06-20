@@ -1,5 +1,5 @@
 import actions, { say } from "./actions.js";
-import { triggerWord } from "./index.js";
+import { triggerWord } from "./imports.js";
 // returns the function that needs to be executed because of a given statement
 function getAction(text) {
   // for in goes through the keys in the object

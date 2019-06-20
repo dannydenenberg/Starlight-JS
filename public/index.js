@@ -1,14 +1,18 @@
+import getAction from "./getAction.js";
+import { triggerWord } from "./imports.js";
+
 /** LEAVE THESE AT THE TOP. THEY ARE NEEDED FOR USE IN EARLY CODE **/
 const SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 const SpeechGrammarList = webkitSpeechGrammarList || SpeechGrammarList;
 const SpeechRecognitionEvent =
   webkitSpeechRecognitionEvent || SpeechRecognitionEvent;
 
-import actions, { say } from "./actions.js";
-import getAction from "./getAction.js";
 
-// like the `hey google` or `alexa`. Just note that it has to be spelled this way, not `starlite`
-export const triggerWord = "starlight";
+
+// import actions, { say } from "./actions.js";
+// import ops from "./gatherSpeechExtra.js";
+
+var mostRecentSaid = "";
 
 var continueRecognition = true; // for when the chrome extention can allow the user to diable audio input
 
@@ -34,16 +38,19 @@ recognition.onresult = async function(event) {
   const text = event.results[last][0].transcript;
   console.log(text);
 
+  mostRecentSaid = text;
   // send the text to be stored in a variable in the app.ts file that keeps track of the most recent text said
-  fetch("/storespeech", {
-    method: "post",
-    body: JSON.stringify({
-      text
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
+  // fetch("/storespeech", {
+  //   method: "post",
+  //   body: JSON.stringify({
+  //     text
+  //   }),
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   }
+  // });
+
+
 
   // if the string contained the word `starlite` (triggerWord), then send the command to the server (node js) for processing.
   // Otherwise, listen again ( the loop starts over )
@@ -51,12 +58,14 @@ recognition.onresult = async function(event) {
   if (text.toLowerCase().includes(triggerWord)) {
     // sendTextToNodeJS(text); // not usable now that everything is in the client side
 
-    // TODO: THIS  DOWN HERE!!!
+    // TODO: THIS DOWN HERE!!!
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // if previous command was ______ don't do this, do this. Send it to the function for processing.
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ NOTNOTNOE
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    // acquire and run the action. NOte that `getAction(string)` returns a function
+    // if one of the variables is true in the ops class, then perform that action.
+
+    // acquire and run the action. Note that `getAction(string)` returns a function
     getAction(text.toLowerCase())(text.toLowerCase());
   }
 };

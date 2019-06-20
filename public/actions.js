@@ -1,15 +1,18 @@
 /** NOTE: Edit the actions object to add or change response functions
  *  THIS IS THE FILE DEVELOPERS SHOULD BE EDITING
  **/
+
 const actions = {
-  "hello|hey": text => say("hello"),
+  "hello|hey": text => {
+    say("hey dude!");
+  },
   "google search": googleSearch,
   "youtube play": youtubePlay,
   "youtube search": youtubeSearch,
-  email: email
+  email: emailF
 };
 
-function email(text) {
+function emailF(text) {
   (async () => {
     const rawResponse = await fetch("/mail", {
       method: "POST",
