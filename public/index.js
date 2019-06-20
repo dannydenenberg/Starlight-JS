@@ -43,8 +43,6 @@ recognition.onresult = async function(event) {
     headers: {
       "Content-Type": "application/json"
     }
-  }).then(res => {
-    console.log("Got a response.");
   });
 
   // if the string contained the word `starlite` (triggerWord), then send the command to the server (node js) for processing.
@@ -52,6 +50,11 @@ recognition.onresult = async function(event) {
   // note, the `includes` string function is ES6
   if (text.toLowerCase().includes(triggerWord)) {
     // sendTextToNodeJS(text); // not usable now that everything is in the client side
+
+    // TODO: THIS  DOWN HERE!!!
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // if previous command was ______ don't do this, do this. Send it to the function for processing.
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ NOTNOTNOE
 
     // acquire and run the action. NOte that `getAction(string)` returns a function
     getAction(text.toLowerCase())(text.toLowerCase());

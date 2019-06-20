@@ -63,7 +63,12 @@ app.get("/", function (req, res) {
 var mostRecentSaid = "";
 app.post("/storespeech", function (req, res) {
     console.log("I'M HERE!", req.body);
+    mostRecentSaid = req.body.text;
     res.send("got it");
+});
+app.get("/getmostrecentsaid", function (req, res) {
+    console.log("Getting most recent");
+    res.send({ mostRecentSaid: mostRecentSaid });
 });
 app.post("/mail", function (req, res) {
     var username = "starlitehelp@gmail.com";

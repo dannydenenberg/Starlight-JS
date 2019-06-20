@@ -28,7 +28,13 @@ app.get("/", (req, res) =>
 var mostRecentSaid = "";
 app.post("/storespeech", (req, res) => {
   console.log("I'M HERE!", req.body);
+  mostRecentSaid = req.body.text;
   res.send("got it");
+});
+
+app.get("/getmostrecentsaid", (req, res) => {
+  console.log("Getting most recent");
+  res.send({ mostRecentSaid });
 });
 
 app.post("/mail", (req, res) => {
