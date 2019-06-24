@@ -2,12 +2,27 @@
  *  THIS IS THE FILE DEVELOPERS SHOULD BE EDITING
  **/
 
+/**
+ * NOTE: When using getSpeechToText() MAKE SURE TO USE `AWAIT`.
+ */
 import { getSpeechToText } from "./index.js";
 
-// talks to the user
-export function say(text) {
+// talks to the user. use in conjunction with `AWAIT` when possible
+export async function say(text) {
+  // for sleeping syncronously (with `await`).
+  // See below for usage
+  function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   var msg = new SpeechSynthesisUtterance(text);
   window.speechSynthesis.speak(msg);
+
+  // sleep a custom amount dependent on how long the text is to make it so that the speech recognizer doesn't recognize the say function's audio
+  // TODO: TWEAK THIS CONSTANTLY
+  await timeout(100 * text.length);
+  // await timeout(3000);
+  console.log("done");
 }
 
 /**
@@ -20,24 +35,41 @@ const actions = {
   "google search": googleSearch,
   "youtube play": youtubePlay,
   "youtube search": youtubeSearch,
-  email: emailF
+  email: email
 };
 
-function emailF(text) {
+function email(text) {
   (async () => {
-    say("what email address?");
+    await say("What email address?");
     let recipient = await getSpeechToText();
+
+    // format's like an email.
+    recipient = recipient
+      .split(" ")
+      .map(s => {
+        if (s == "dot") {
+          return ".";
+        } else if (s == "at") {
+          return "@";
+        } else {
+          return s;
+        }
+      })
+      .join("");
+
     console.log(`Recipient: ${recipient}`);
+
+    await say("What would you like to say?");
+    let emailBody = await getSpeechToText();
+    console.log(`EmailBody: ${emailBody}`);
+
     const rawResponse = await fetch("/mail", {
       method: "post",
-      body: {
-        recipient
-      },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ speechToText: "the text content" })
+      body: JSON.stringify({ recipient, emailBody })
     });
     const content = await rawResponse.json();
 

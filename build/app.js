@@ -94,7 +94,7 @@ app.post("/mostrecentsaid", function (req, res) {
                         check();
                         return [3 /*break*/, 3];
                     case 2:
-                        console.log("<<DONE!!>>");
+                        // console.log("<<DONE!!>>");
                         res.json({ text: mostRecentSaid.text });
                         _a.label = 3;
                     case 3: return [2 /*return*/];
@@ -112,7 +112,11 @@ app.post("/storespeech", function (req, res) {
  * END for getSpeechToText() in public/index.js
  */
 /*----------------------------------------------------------------------------------- */
+/**
+ * This is paired with the `email` key in the public/actions.js object
+ */
 app.post("/mail", function (req, res) {
+    var info = req.body;
     var username = "starlitehelp@gmail.com";
     var transporter = nodemailer_1.default.createTransport({
         service: "gmail",
@@ -123,9 +127,9 @@ app.post("/mail", function (req, res) {
     });
     var mailOptions = {
         from: username,
-        to: "dannydenenberg@gmail.com",
-        subject: "This is my subject!",
-        text: "That was easy!"
+        to: info.recipient,
+        subject: "Hola, Shalom",
+        text: info.emailBody
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

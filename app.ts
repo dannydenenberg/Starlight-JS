@@ -71,7 +71,12 @@ app.post("/storespeech", (req, res) => {
  */
 /*----------------------------------------------------------------------------------- */
 
+/**
+ * This is paired with the `email` key in the public/actions.js object
+ */
 app.post("/mail", (req, res) => {
+  let info = req.body;
+
   const username = "starlitehelp@gmail.com";
   let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -83,9 +88,9 @@ app.post("/mail", (req, res) => {
 
   let mailOptions = {
     from: username,
-    to: "dannydenenberg@gmail.com",
-    subject: "This is my subject!",
-    text: "That was easy!"
+    to: info.recipient,
+    subject: "Hola, Shalom",
+    text: info.emailBody
   };
 
   transporter.sendMail(mailOptions, function(error, info) {
