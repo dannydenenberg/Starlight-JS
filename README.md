@@ -1,6 +1,6 @@
 # Starlite JS
 
-A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.js (& TypeScript).
+A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.js (& TypeScript). A web-based voice command assistant that's **fast**, _free_, and `hackable 👨‍💻`.
 
 ## Getting Started/Installing
 
