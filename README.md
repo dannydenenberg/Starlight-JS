@@ -19,7 +19,7 @@ A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.
 
 #### app.ts
 
-> This is the main entrypoint for the application. The server starts here. I use the express.js package for handling requests and responses. This file is also where you can add post/get/etc responses to requests if an added functionality needs to be talking to the server.
+This is the main entrypoint for the application. The server starts here. I use the express.js package for handling requests and responses. This file is also where you can add post/get/etc responses to requests if an added functionality needs to be talking to the server.
 
 #### passwords.ts
 
