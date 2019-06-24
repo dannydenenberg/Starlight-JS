@@ -1,50 +1,31 @@
 # Starlite JS
-A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.js (TypeScript).
 
-## Getting Started
+A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.js (& TypeScript).
 
-1. Clone the project: ```$ git clone https://github.com/dannydenenberg/Starlite-JS.git```
-2. cd into the directory: ```$ cd Starlite-JS```
-3. Compile the typescript: ```$ tsc```
-4. Run the project: ```$ node build/app.js```
+## Getting Started/Installing
+
+1. Clone the project: `$ git clone https://github.com/dannydenenberg/Starlite-JS.git`
+2. cd into the directory: `$ cd Starlite-JS`
+3. Install dependencies: `$ npm i`
+4. Compile the typescript: `$ tsc`
+5. Run the project: `$ node build/app.js`
+6. Go to the web page (the port will show in the console): `localhost:port`
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+**NOTE: Do not run this program in Windows subsystem for Linux 1 (WSL1). Functions WILL break.**
 
-```
-Give examples
-```
+### Files
 
-### Installing
+#### app.ts
 
-A step by step series of examples that tell you how to get a development env running
+> This is the main entrypoint for the application. The server starts here. I use the express.js package for handling requests and responses. This file is also where you can add post/get/etc responses to requests if an added functionality needs to be talking to the server.
 
-Say what the step will be
+#### passwords.ts
 
-```
-Give the example
-```
+An easy modular way to store your passwords to email, etc. Just `import` them and use them in the code.
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+####
 
 ### And coding style tests
 
@@ -60,9 +41,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+- [Maven](https://maven.apache.org/) - Dependency Management
+- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
 
@@ -74,7 +55,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -84,9 +65,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
+- Hat tip to anyone whose code was used
+- Inspiration
+- etc
 
 ⌘ + Shift + J

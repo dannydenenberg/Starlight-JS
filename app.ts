@@ -6,7 +6,7 @@ import emailPassword from "./passwords";
 import puppeteer from "puppeteer";
 import express from "express";
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // formats the body of the request into what we want (JSON)
 import parser from "body-parser";

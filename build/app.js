@@ -47,7 +47,7 @@ var passwords_1 = __importDefault(require("./passwords"));
 var puppeteer_1 = __importDefault(require("puppeteer"));
 var express_1 = __importDefault(require("express"));
 var app = express_1.default();
-var port = 3000;
+var port = process.env.PORT;
 // formats the body of the request into what we want (JSON)
 var body_parser_1 = __importDefault(require("body-parser"));
 // response from server (node js) that means Starlite doesn't know how to respond
