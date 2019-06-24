@@ -2,6 +2,8 @@
  *  THIS IS THE FILE DEVELOPERS SHOULD BE EDITING
  **/
 
+import { getSpeechToText } from "./index.js";
+
 const actions = {
   "hello|hey": text => {
     say("hey dude!");
@@ -14,6 +16,9 @@ const actions = {
 
 function emailF(text) {
   (async () => {
+    say("what email address?");
+    let recipient = await getSpeechToText();
+    console.log(`Recipient: ${recipient}`);
     const rawResponse = await fetch("/mail", {
       method: "POST",
       headers: {

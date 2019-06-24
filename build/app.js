@@ -59,17 +59,6 @@ console.log("DIRNAME: " + __dirname);
 app.get("/", function (req, res) {
     return res.send("This is root. You should probably not get this b/c I set up a public dir.");
 });
-// stores the most recent thing said in a variable
-var mostRecentSaid = "";
-app.post("/storespeech", function (req, res) {
-    console.log("I'M HERE!", req.body);
-    mostRecentSaid = req.body.text;
-    res.send("got it");
-});
-app.get("/getmostrecentsaid", function (req, res) {
-    console.log("Getting most recent");
-    res.send({ mostRecentSaid: mostRecentSaid });
-});
 app.post("/mail", function (req, res) {
     var username = "starlitehelp@gmail.com";
     var transporter = nodemailer_1.default.createTransport({
@@ -81,7 +70,7 @@ app.post("/mail", function (req, res) {
     });
     var mailOptions = {
         from: username,
-        to: "danny_denenberg@gallup.com",
+        to: "dannydenenberg@gmail.com",
         subject: "This is my subject!",
         text: "That was easy!"
     };
@@ -93,7 +82,7 @@ app.post("/mail", function (req, res) {
             console.log("Email sent: " + info.response);
         }
     });
-    res.send("done! good to go!");
+    res.json({ message: "good to go" });
 });
 /**
  * Add any answers to post/get/etc requests from the client side here

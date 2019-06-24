@@ -24,19 +24,6 @@ app.get("/", (req, res) =>
   )
 );
 
-// stores the most recent thing said in a variable
-var mostRecentSaid = "";
-app.post("/storespeech", (req, res) => {
-  console.log("I'M HERE!", req.body);
-  mostRecentSaid = req.body.text;
-  res.send("got it");
-});
-
-app.get("/getmostrecentsaid", (req, res) => {
-  console.log("Getting most recent");
-  res.send({ mostRecentSaid });
-});
-
 app.post("/mail", (req, res) => {
   const username = "starlitehelp@gmail.com";
   let transporter = nodemailer.createTransport({
@@ -49,7 +36,7 @@ app.post("/mail", (req, res) => {
 
   let mailOptions = {
     from: username,
-    to: "danny_denenberg@gallup.com",
+    to: "dannydenenberg@gmail.com",
     subject: "This is my subject!",
     text: "That was easy!"
   };
@@ -62,7 +49,7 @@ app.post("/mail", (req, res) => {
     }
   });
 
-  res.send("done! good to go!");
+  res.json({ message: "good to go" });
 });
 
 /**
