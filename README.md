@@ -25,48 +25,30 @@ This is the main entrypoint for the application. The server starts here. I use t
 
 An easy modular way to store your passwords to email, etc. Just `import` them and use them in the code.
 
-####
+#### public/index.js
 
-### And coding style tests
+This is the main entrypoint for the client side JavaScript. All of the speech recognition and calling of the function associated with a command happens here. Also the `getSpeechToText()` function is defined here.
 
-Explain what these tests test and why
+#### public/actions.js
 
-```
-Give an example
-```
+This is the 'meat' of the commands for starlite. This file holds the `actions` object which associates what a user would say as a command with a function to be executed (all of the associated functions should be stored in this file as well). Also, the `say(text)` function that 'talks' to the user is in here.
 
-## Deployment
+#### public/imports.js
 
-Add additional notes about how to deploy this on a live system
+This holds public variables one might want to access (such as the trigger word, 'starlite').
+
+#### public/getAction.js
+
+This holds the `getAction(text)` function which takes a user command as an argument and uses the `actions` object in [public/actions.js](public/actions.js) to choose the associated function to run. It returns this function.
 
 ## Built With
 
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-- [Maven](https://maven.apache.org/) - Dependency Management
-- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+- [Node.js](https://nodejs.org/)
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Pull requests for code updates are always welcome!
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
-
-⌘ + Shift + J
