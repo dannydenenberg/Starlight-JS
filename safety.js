@@ -1,25 +1,30 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-const parser = require('body-parser');
+// old getSpeechToText code.
+export async function getSpeechToText() {
+  // do stuff before the checking of the textChange variable
+  let temp = textChange;
 
+  // recursive, so that it is non-blocking
+  (async function checkVariable() {
+    if (temp == textChange) {
+      // nothing has changed, user hasn't said anything yet.
+      // check again
+      await new Promise(done => setTimeout(() => done(), 100)); // pause for 100 miliseconds to prevent stack overflow
+    } else {
+      console.log("finished");
+      console.log(`CONTENT: ${mostRecentSaid.text}`);
+    }
+  })();
 
-app.use(parser.json());
-app.use(express.static(__dirname + '/public'));
+  return mostRecentSaid.text;
+}
 
-app.get('/', (req, res) => res.send('Hello World!'));
-
-app.get('/cool', function(req, res) {
-  res.send('Cool!')
-});
-
-app.post('/submitCommand', (req, res) => {
-  const request = req.body;
-  console.log(request);
-  console.log(request.text);
-  res.send({
-    response: "Your response is this."
+function delay(n) {
+  n = n || 2000;
+  return new Promise(done => {
+    setTimeout(() => {
+      done();
+    }, n);
   });
-});
+}
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+export async function getSpeechToText1() {}

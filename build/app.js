@@ -59,6 +59,59 @@ console.log("DIRNAME: " + __dirname);
 app.get("/", function (req, res) {
     return res.send("This is root. You should probably not get this b/c I set up a public dir.");
 });
+/*----------------------------------------------------------------------------------- */
+/**
+ * NOTE: DO NOT EDIT BELOW!!!!!!!!!!!!
+ * For the getSpeechToText() function in public/index.js
+ */
+// for getting speech to text
+// when this value changes, it means that the mostRecentSaid.text value has changed
+// this value is changed below in the setter of the mostRecentSaid object
+var textChange = false;
+var mostRecentSaid = {
+    txt: "",
+    set text(t) {
+        textChange = !textChange;
+        // console.log(`TO [${textChange}]`);
+        this.txt = t;
+    },
+    get text() {
+        return this.txt;
+    }
+};
+app.post("/mostrecentsaid", function (req, res) {
+    // console.log("inside most recent said");
+    var temp = textChange;
+    (function check() {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(temp == textChange)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, new Promise(function (done) { return setTimeout(function () { return done(); }, 100); })];
+                    case 1:
+                        _a.sent(); // pause for 100 miliseconds to prevent stack overflow
+                        check();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        console.log("<<DONE!!>>");
+                        res.json({ text: mostRecentSaid.text });
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    })(); // make sure to actually run the function
+});
+app.post("/storespeech", function (req, res) {
+    mostRecentSaid.text = req.body.text;
+    console.log("[Store Speech]: " + req.body.text);
+    res.send("Got it.");
+});
+/**
+ * END for getSpeechToText() in public/index.js
+ */
+/*----------------------------------------------------------------------------------- */
 app.post("/mail", function (req, res) {
     var username = "starlitehelp@gmail.com";
     var transporter = nodemailer_1.default.createTransport({

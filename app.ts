@@ -24,6 +24,53 @@ app.get("/", (req, res) =>
   )
 );
 
+/*----------------------------------------------------------------------------------- */
+/**
+ * NOTE: DO NOT EDIT BELOW!!!!!!!!!!!!
+ * For the getSpeechToText() function in public/index.js
+ */
+// for getting speech to text
+// when this value changes, it means that the mostRecentSaid.text value has changed
+// this value is changed below in the setter of the mostRecentSaid object
+let textChange = false;
+
+var mostRecentSaid = {
+  txt: "",
+  set text(t) {
+    textChange = !textChange;
+    // console.log(`TO [${textChange}]`);
+    this.txt = t;
+  },
+  get text() {
+    return this.txt;
+  }
+};
+
+app.post("/mostrecentsaid", (req, res) => {
+  // console.log("inside most recent said");
+  let temp = textChange;
+
+  (async function check() {
+    if (temp == textChange) {
+      await new Promise(done => setTimeout(() => done(), 100)); // pause for 100 miliseconds to prevent stack overflow
+      check();
+    } else {
+      // console.log("<<DONE!!>>");
+      res.json({ text: mostRecentSaid.text });
+    }
+  })(); // make sure to actually run the function
+});
+
+app.post("/storespeech", (req, res) => {
+  mostRecentSaid.text = req.body.text;
+  console.log(`[Store Speech]: ${req.body.text}`);
+  res.send("Got it.");
+});
+/**
+ * END for getSpeechToText() in public/index.js
+ */
+/*----------------------------------------------------------------------------------- */
+
 app.post("/mail", (req, res) => {
   const username = "starlitehelp@gmail.com";
   let transporter = nodemailer.createTransport({

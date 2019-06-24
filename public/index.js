@@ -7,25 +7,6 @@ const SpeechGrammarList = webkitSpeechGrammarList || SpeechGrammarList;
 const SpeechRecognitionEvent =
   webkitSpeechRecognitionEvent || SpeechRecognitionEvent;
 
-// import actions, { say } from "./actions.js";
-// import ops from "./gatherSpeechExtra.js";
-
-// when this value changes, it means that the mostRecentSaid.txt value has changed
-// this value is changed below in the setter of the mostRecentSaid object
-let textChange = false;
-
-var mostRecentSaid = {
-  txt: "",
-  set text(t) {
-    // changing the textChange variable to notify the getSpeechToText function that the text has changed
-    textChange = !textChange;
-    this.txt = t;
-  },
-  get text() {
-    return this.txt;
-  }
-};
-
 var continueRecognition = true; // for when the chrome extention can allow the user to diable audio input
 
 let recognition = new SpeechRecognition();
@@ -50,17 +31,16 @@ recognition.onresult = async function(event) {
   const text = event.results[last][0].transcript;
   console.log(text);
 
-  mostRecentSaid.text = text;
   // send the text to be stored in a variable in the app.ts file that keeps track of the most recent text said
-  // fetch("/storespeech", {
-  //   method: "post",
-  //   body: JSON.stringify({
-  //     text
-  //   }),
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   }
-  // });
+  fetch("/storespeech", {
+    method: "post",
+    body: JSON.stringify({
+      text
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 
   // if the string contained the word `starlite` (triggerWord), then send the command to the server (node js) for processing.
   // Otherwise, listen again ( the loop starts over )
@@ -78,21 +58,25 @@ recognition.onend = () => {
   }
 };
 
+/**
+ * This function works with 2 server responses in app.ts.
+ * NOTE: This function must be used inside of an async function with an await infront of it.
+ */
 export async function getSpeechToText() {
-  // do stuff before the checking of the textChange variable
-  let temp = textChange;
-
-  // recursive, so that it is non-blocking
-  await (async function checkVariable() {
-    if (temp == textChange) {
-      // nothing has changed, user hasn't said anything yet.
-      // check again
-      await setTimeout(checkVariable, 100); // the problem is this is a promise
-    } else {
-      console.log("finished");
-      console.log(`CONTENT: ${mostRecentSaid.text}`);
+  let res = await fetch("/mostrecentsaid", {
+    method: "post",
+    // body: JSON.stringify({
+    //   text
+    // }),
+    headers: {
+      "Content-Type": "application/json"
     }
-  })();
+  });
 
-  return mostRecentSaid.text;
+  // get the resulting json
+  let resJSON = await res.json();
+
+  // get the speech that the person said
+
+  return resJSON.text;
 }

@@ -4,6 +4,15 @@
 
 import { getSpeechToText } from "./index.js";
 
+// talks to the user
+export function say(text) {
+  var msg = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(msg);
+}
+
+/**
+ * Here is the meat of this file. Edit this to associate a command present in what the person said with a function to execute that takes the user's command as an argument.
+ */
 const actions = {
   "hello|hey": text => {
     say("hey dude!");
@@ -20,7 +29,10 @@ function emailF(text) {
     let recipient = await getSpeechToText();
     console.log(`Recipient: ${recipient}`);
     const rawResponse = await fetch("/mail", {
-      method: "POST",
+      method: "post",
+      body: {
+        recipient
+      },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -74,12 +86,6 @@ function youtubeSearch(text) {
     .split(" ")
     .join("+")}`;
   window.open(link);
-}
-
-// talks to the user
-export function say(text) {
-  var msg = new SpeechSynthesisUtterance(text);
-  window.speechSynthesis.speak(msg);
 }
 
 export default actions;
