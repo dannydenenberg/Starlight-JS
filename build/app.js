@@ -47,7 +47,7 @@ var passwords_1 = __importDefault(require("./passwords"));
 var puppeteer_1 = __importDefault(require("puppeteer"));
 var express_1 = __importDefault(require("express"));
 var app = express_1.default();
-var port = process.env.PORT;
+var port = process.env.PORT || 3000;
 // formats the body of the request into what we want (JSON)
 var body_parser_1 = __importDefault(require("body-parser"));
 // response from server (node js) that means Starlite doesn't know how to respond
@@ -80,6 +80,7 @@ var mostRecentSaid = {
     }
 };
 app.post("/mostrecentsaid", function (req, res) {
+    var frameRate = 100;
     // console.log("inside most recent said");
     var temp = textChange;
     (function check() {
@@ -88,7 +89,7 @@ app.post("/mostrecentsaid", function (req, res) {
                 switch (_a.label) {
                     case 0:
                         if (!(temp == textChange)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, new Promise(function (done) { return setTimeout(function () { return done(); }, 100); })];
+                        return [4 /*yield*/, new Promise(function (done) { return setTimeout(function () { return done(); }, frameRate); })];
                     case 1:
                         _a.sent(); // pause for 100 miliseconds to prevent stack overflow
                         check();

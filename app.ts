@@ -47,12 +47,13 @@ var mostRecentSaid = {
 };
 
 app.post("/mostrecentsaid", (req, res) => {
+  let frameRate = 100;
   // console.log("inside most recent said");
   let temp = textChange;
 
   (async function check() {
     if (temp == textChange) {
-      await new Promise(done => setTimeout(() => done(), 100)); // pause for 100 miliseconds to prevent stack overflow
+      await new Promise(done => setTimeout(() => done(), frameRate)); // pause for 100 miliseconds to prevent stack overflow
       check();
     } else {
       // console.log("<<DONE!!>>");

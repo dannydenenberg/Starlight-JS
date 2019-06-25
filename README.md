@@ -41,6 +41,10 @@ A web port of [Starlite](https://github.com/dannydenenberg/Starlite) using Node.
 
 > This holds the `getAction(text)` function which takes a user command as an argument and uses the `actions` object in [public/actions.js](public/actions.js) to choose the associated function to run. It returns this function.
 
+#### public/index.html
+
+> This file is served when you go to `localhost:port`
+
 ## Built With
 
 - [Node.js](https://nodejs.org/)

@@ -20,7 +20,7 @@ export async function say(text) {
 
   // sleep a custom amount dependent on how long the text is to make it so that the speech recognizer doesn't recognize the say function's audio
   // TODO: TWEAK THIS CONSTANTLY
-  await timeout(100 * text.length);
+  await timeout(120 * text.length);
   // await timeout(3000);
   console.log("done");
 }
@@ -35,8 +35,29 @@ const actions = {
   "google search": googleSearch,
   "youtube play": youtubePlay,
   "youtube search": youtubeSearch,
-  email: email
+  email: email,
+  "search the coaching blog for": gallupSearch
 };
+
+function gallupSearch(text) {
+  (async () => {
+    let rest = text.substr(
+      text.search("coaching blog for") + "coaching blog for".length + 1 // plus 1 for the extra space
+    );
+    const rawResponse = await fetch(
+      `http://coaching-search.herokuapp.com/search?q=${rest}`,
+      {
+        method: "get",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    const res = await rawResponse.json();
+    window.open(res.data[0]);
+  })();
+}
 
 function email(text) {
   (async () => {
@@ -51,6 +72,8 @@ function email(text) {
           return ".";
         } else if (s == "at") {
           return "@";
+        } else if (s == "underscore") {
+          return "_";
         } else {
           return s;
         }
